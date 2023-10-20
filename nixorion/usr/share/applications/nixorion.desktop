@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Nixorion
+Icon=/opt/nix-icon/nixorion.png
+Type=Application
+Categories=Utility;
+Exec=nixorion
+StartupNotify=false
+Terminal=true
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ -f "/usr/bin/functions" ];then
+    sudo rm -f /usr/bin/functions
+    echo "arquivo /functions removed"
+fi
+
+if [ -f "/usr/bin/nixorion" ];then
+    sudo rm -f /usr/bin/nixorion
+    echo "arquivo /nixorion removed"
+fi

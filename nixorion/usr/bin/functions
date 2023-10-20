@@ -1,0 +1,128 @@
+#!/bin/bash
+
+function att_system {
+   # Atualização de sistema
+   echo -e "${BLUE}   *** ÍNICIO DA ATUALIZAÇÃO DE SISTEMA ***${NC}";sleep 1
+
+   sudo apt-get update
+   sudo apt-get upgrade -y
+   sudo apt-get dist-upgrade -y
+
+   echo -e "${GREEN}   *** ATUALIZAÇÃO CONCLUÍDA ***${NC}";sleep 2
+
+   echo -e "${BLUE} *** REMOVENDO PACOTES DESNECESSÁRIOS *** ${NC}";sleep 1
+
+   sudo apt autoremove -y 
+}
+
+function conexao {
+   # Internet conectando?
+   if ! ping -c 1 8.8.8.8 -q &> /dev/null; then
+      echo -e "<span color=\"red\"><b>Offline</b></span>";sleep 1
+   else
+      echo -e "<span color=\"green\"><b>Online</b></span>";sleep 1
+   fi
+}
+
+function utils {
+   echo "v1.0.1";
+}
+
+function password_system {
+   PASS=$(zenity --password --title="Nixorion ${v}")
+
+   if [[ -z "$PASS" ]]; then
+      zenity --error --ellipsize --text="Senha está vazia."
+      exit 1
+   fi 
+}
+
+function install_programs {
+   # Instalação dos programas
+   echo -e "${BLUE}   *** INÍCIO DA INSTALAÇÃO DOS PROGRAMAS ***${NC}";sleep 1
+
+
+   echo -e "${YELLOW}1 - Brave"
+   echo -e "2 - Discord"
+   echo -e "3 - Todos ${NC}"
+   read -p "Qual programa quer instalar?: " OPT
+
+   case $OPT in
+      1) brave_install ;;
+      2) discord_install ;;
+      3) all_programs ;;
+      *) echo -e "${RED}Opcao Invalida!${NC}" ;;
+   esac
+
+}
+
+function uninstall_programs {
+   echo -e "${YELLOW}1 - Brave"
+   echo -e "2 - Discord"
+   echo -e "3 - Testev ${NC}"
+   read -p "Digite o número do programa para desinstalar: " DESINSTALAR
+   if [[ $DESINSTALAR -eq 1 ]]; then
+      echo -e "${BLUE}   *** INICIANDO DESINSTALAÇÃO DO BRAVE *** ${NC}";sleep 1
+      sudo apt-get remove brave-browser -y
+      echo -e "${GREEN}   *** DESINSTALAÇÃO DO BRAVE CONCLUÍDA ***${NC}";sleep 2
+   else
+      echo -e "${FYELLOW}${RED}   *** Opção para desinstalação inválida ***${NC}"
+   fi
+}
+
+function brave_install {
+   echo -e "${BLUE}   *** INSTALL curl *** ${NC}";sleep 1
+   sudo apt-get install curl -y
+
+   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+   echo -e "${BLUE}   *** UPDATE SYSTEM *** ${NC}";sleep 1
+   sudo apt-get update
+
+   echo -e "${BLUE}   *** INSTALLING BRAVE *** ${NC}";sleep 1
+
+   sudo apt-get install brave-browser -y
+
+   echo -e "${GREEN}   *** INSTALAÇÃO DO BRAVE CONCLUÍDA ***${NC}";sleep 2
+
+   echo -e "${BLUE} *** REMOVENDO PACOTES DESNECESSÁRIOS *** ${NC}";sleep 1
+
+   sudo apt autoremove -y
+}
+
+function discord_install {
+   echo -e "${BLUE}   *** DOWNLOAD DISCORD *** ${NC}";sleep 1
+
+   wget --show-progress -O discord.deb https://discord.com/api/download?platform=linux&format=deb
+
+   sudo dpkg -i discord.deb
+
+   echo -e "${GREEN}   *** INSTALAÇÃO DO DISCORD CONCLUÍDA ***${NC}";sleep 2
+
+   echo -e "${BLUE} *** REMOVENDO PACOTES DESNECESSÁRIOS *** ${NC}";sleep 1
+
+   sudo apt autoremove -y
+
+}
+
+function all_programs {
+   echo -e "${BLUE}   *** INSTALL ALL PROGRAMS *** ${NC}";sleep 1
+
+   brave_install
+   discord_install
+
+   echo -e "${GREEN}   *** INSTALAÇÃO CONCLUÍDA ***${NC}";sleep 2
+
+   echo -e "${BLUE} *** REMOVENDO PACOTES DESNECESSÁRIOS *** ${NC}";sleep 1
+
+   sudo apt autoremove -y
+}
+
+function to_check_att {
+
+   grep $check_data /var/log/dpkg.log
+
+   grep $check_data /var/log/apt/history.log
+}

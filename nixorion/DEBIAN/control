@@ -1,0 +1,14 @@
+Package: nixorion
+Version: 1.0.1
+Priority:
+Architecture: all
+Essential:
+Depends:
+Pre-depends:
+Suggests:
+Installed-Size:
+Maintainer: Gabriel Terra
+Conflicts:
+Replaces:
+Provides:
+Description: Aplicativo para atualização do sistema e instalação de programas

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+
+# Cria build do programa
+mv ~/nix_update_system/nixorion/_usr/_bin ~/nix_update_system/nixorion/_usr/bin
+
+mv ~/nix_update_system/nixorion/_usr ~/nix_update_system/nixorion/usr
+
+# sudo dpkg-deb -b ../nixorion/ nix.1.0.1.deb

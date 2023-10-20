@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+#Discribe: Script Automatizado para atualização em distribuições Linux baseadas em Debian.
+#Version: 2.0
+#License: GPL
+
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+BLUE='\033[1;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Cores de fundo
+FWHITE='\033[47m'
+FYELLOW='\033[43m' 
+
+#--------------------------------------------------------------------------------------------------------
+
+# criar modulos
+# path=$(pwd)
+
+# file_main=$path'/function.sh'
+
+# . $file_main
+
+# Importando o arquivo com as funções
+
+source functions
+
+#--------------------------------------------------------------------------------------------------------
+
+# Verifica conexão com internet
+utils
+conexao
+# Pega o retorno da função conexao
+con=$(conexao)
+v=`utils`
+
+#Menu principal
+data_menu=$(zenity --width=350 --height=247 --list \
+   --title="Nixorion ${v}" \
+   --text="${con}" \
+   --column="Opção" --column="descrição" \
+      1 "Atualizar o Sistema" \
+      2 "Instalar programas" \
+      3 "Instalar Programas e Atualizar Sistema"
+)
+
+# 3 "Desinstalar Programa" \
+# 4 "Verificar atualizações feitas" \
+
+
+
+if [ "$data_menu" -eq 1 -o "$data_menu" -eq 2 -o "$data_menu" -eq 3 ] &> /dev/null; then
+   if [[ $data_menu -eq 1 ]]; then
+      att_system
+      sleep 2
+   fi
+   #--------------------------------------------------------------------------------------------------------
+
+   if [[ $data_menu -eq 2 ]]; then
+      install_programs
+      sleep 2
+   fi
+
+   #--------------------------------------------------------------------------------------------------------
+
+   # if [[ $data_menu -eq 3 ]]; then
+   #    uninstall_programs
+   #    sleep 2
+   # fi
+
+   #-------------------------------------------------------------------------------------------------------
+
+   # if [[ $data_menu -eq 4 ]]; then
+   #    check_data=$(zenity --width=200 --height=200 --forms --title="Atualizações" \
+   #       --add-combo="Type" \
+   #       --combo-values="update|upgrade|remove"
+   #    )
+   #    to_check_att
+   #    att_list=`to_check_att`
+   #    info_dialog=$(
+   #       zenity --info --text="${att_list}" --ellipsize
+   #    )
+   # fi
+
+   #--------------------------------------------------------------------------------------------------------
+
+   if [[ $data_menu -eq 3 ]]; then
+      att_system
+      install_programs
+      sleep 2
+   fi
+   #--------------------------------------------------------------------------------------------------------
+else
+   exit 1
+   sleep 3
+fi
+
+#-------------------------------------------------------------------------------------------------------
+
+
